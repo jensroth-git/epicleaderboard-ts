@@ -311,10 +311,10 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT © [Mazescape Team](LICENSE)
+MIT © [EpicLeaderboard](LICENSE)
 
 ## Support
 
-- 📧 Email: support@epicleaderboard.com
+- 📧 Email: epicleaderboard@gmail.com
 - 🐛 Issues: [GitHub Issues](https://github.com/jensroth-git/epicleaderboard-ts/issues)
 - 📖 Documentation: [API Docs](https://epicleaderboard.com/docs) 
