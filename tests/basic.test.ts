@@ -113,7 +113,7 @@ describe('Get Leaderboard Entries', () => {
     
     const client = new EpicLeaderboard();
 
-    const result = await client.getLeaderboardEntries(game, leaderboard, '');
+    const result = await client.getLeaderboardEntries(game, leaderboard, "");
     expect(result).toBeDefined();
     expect(result.entries.length).toBeGreaterThan(0);
   });
