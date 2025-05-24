@@ -133,7 +133,7 @@ async submitLeaderboardEntry(
   username: string,
   score: number,
   meta?: Record<string, string>
-): Promise<void>
+): Promise<TimeframeUpdateResult>
 ```
 
 **Parameters:**
@@ -142,6 +142,19 @@ async submitLeaderboardEntry(
 - `username`: Player username
 - `score`: Numeric score value
 - `meta`: Optional additional data to store with the score
+
+**Returns:**
+A bitfield indicating which timeframe leaderboards were updated with this score:
+```typescript
+enum TimeframeUpdateResult {
+    None = 0,        // No timeframes were updated
+    AllTime = 1,     // All-time leaderboard was updated
+    Year = 2,        // Yearly leaderboard was updated
+    Month = 4,       // Monthly leaderboard was updated
+    Week = 8,        // Weekly leaderboard was updated
+    Day = 16         // Daily leaderboard was updated
+}
+```
 
 #### `isUsernameAvailable()`
 
@@ -200,16 +213,28 @@ enum Timeframe {
 }
 ```
 
+#### `TimeframeUpdateResult`
+```typescript
+enum TimeframeUpdateResult {
+  None = 0,
+  AllTime = 1,
+  Year = 2,
+  Month = 4,
+  Week = 8,
+  Day = 16
+}
+```
+
 ## Examples
 
 ### Submit a Score with Metadata
 
 ```typescript
-import { EpicLeaderboard } from 'epicleaderboard-ts';
+import { EpicLeaderboard, TimeframeUpdateResult } from 'epicleaderboard-ts';
 
 const client = new EpicLeaderboard();
 
-await client.submitLeaderboardEntry(
+const result = await client.submitLeaderboardEntry(
   { gameID: 'my-game', gameKey: 'secret-key' },
   { primaryID: 'main', secondaryID: 'level-1' },
   'player123',
@@ -220,6 +245,14 @@ await client.submitLeaderboardEntry(
     difficulty: 'hard'
   }
 );
+
+// Check which timeframes were updated
+if (result & TimeframeUpdateResult.AllTime) {
+  console.log('New all-time high score!');
+}
+if (result & TimeframeUpdateResult.Day) {
+  console.log('New daily high score!');
+}
 ```
 
 ### Check Username Availability
