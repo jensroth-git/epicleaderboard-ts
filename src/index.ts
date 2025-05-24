@@ -36,6 +36,16 @@ export enum Timeframe {
     Day = 4,
 }
 
+// Add timeframe update bitflag enum
+export enum TimeframeUpdateResult {
+    None = 0,
+    AllTime = 1 << 0, // 1
+    Year = 1 << 1,    // 2 
+    Month = 1 << 2,   // 4
+    Week = 1 << 3,    // 8
+    Day = 1 << 4      // 16
+}
+
 export enum IsUsernameAvailableResponse {
     Available = 0,
     Invalid = 1,
@@ -179,7 +189,7 @@ export class EpicLeaderboard {
     /**
      * Submits a leaderboard entry with metadata
      */
-    async submitLeaderboardEntry(game: EpicLeaderboardGame, leaderboard: EpicLeaderboardConfig, username: string, score: number, metadata: Record<string, string> = {}): Promise<void> {
+    async submitLeaderboardEntry(game: EpicLeaderboardGame, leaderboard: EpicLeaderboardConfig, username: string, score: number, metadata: Record<string, string> = {}): Promise<TimeframeUpdateResult> {
         const metaJson = EpicLeaderboardUtils.serializeMap(metadata);
 
         const params = {
@@ -212,6 +222,10 @@ export class EpicLeaderboard {
                     response.status
                 );
             }
+
+            const data = await response.json();
+
+            return data;
         } catch (error) {
             if (error instanceof EpicLeaderboardError) {
                 throw error;

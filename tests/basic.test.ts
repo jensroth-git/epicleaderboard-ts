@@ -147,7 +147,9 @@ describe('Submit Leaderboard Entry', () => {
     const metadata = { level: '1', time: '120.5' };
     const client = new EpicLeaderboard();
 
-    //expect function to not throw an error
-    await expect(client.submitLeaderboardEntry(game, leaderboard, 'test-please-dont-use-score', 60_000_000, metadata)).resolves.not.toThrow();
+    const result = await client.submitLeaderboardEntry(game, leaderboard, 'test-please-dont-use-score', 60_000_001, metadata);
+
+    console.log(result);
   });
 });
+
